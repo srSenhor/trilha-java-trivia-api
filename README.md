@@ -19,7 +19,6 @@ classDiagram
 
     class Guess {
         -int questionId
-        -String attemptedResponse
     }
 
     class Question {
@@ -35,6 +34,7 @@ classDiagram
 
     Player "1" *-- "1" Guess : faz
     Guess "1" --* "1" Question : para
+    Guess "1" o-- "1" Statement : tem
     Question "1" *-- "0..*" Statement : contém
 ```
 
