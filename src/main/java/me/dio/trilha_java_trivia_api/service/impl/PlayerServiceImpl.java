@@ -23,9 +23,8 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player create(Player playerToBeCreated) {
-        Long id = playerToBeCreated.getId();
-        if (id == null || playerRepository.existsById(id)) {
-            throw new IllegalArgumentException("Cannot create a new player cause this id is invalid");
+        if (playerRepository.existsByNickname(playerToBeCreated.getNickname())) {
+            throw new IllegalArgumentException("Cannot create a new player cause this nickname already exists");
         }
         return playerRepository.save(playerToBeCreated);
     }

@@ -46,4 +46,10 @@ public class Player {
     public void setMaxStreak(int maxStreak) {
         this.maxStreak = maxStreak;
     }
+
+    public void incrementStreak() {
+        if (this.streak == this.maxStreak) this.maxStreak++;
+        this.streak++;
+    }
+
 }

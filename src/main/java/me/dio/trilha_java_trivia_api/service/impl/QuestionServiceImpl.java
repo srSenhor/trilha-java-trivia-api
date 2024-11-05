@@ -1,7 +1,9 @@
 package me.dio.trilha_java_trivia_api.service.impl;
 
 import me.dio.trilha_java_trivia_api.domain.model.Guess;
+import me.dio.trilha_java_trivia_api.domain.model.Player;
 import me.dio.trilha_java_trivia_api.domain.model.Question;
+import me.dio.trilha_java_trivia_api.domain.repository.PlayerRepository;
 import me.dio.trilha_java_trivia_api.domain.repository.QuestionRepository;
 import me.dio.trilha_java_trivia_api.service.QuestionService;
 import org.springframework.stereotype.Service;
@@ -12,9 +14,11 @@ import java.util.NoSuchElementException;
 public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final PlayerRepository playerRepository;
 
-    public QuestionServiceImpl(QuestionRepository questionRepository) {
+    public QuestionServiceImpl(QuestionRepository questionRepository, PlayerRepository playerRepository) {
         this.questionRepository = questionRepository;
+        this.playerRepository = playerRepository;
     }
 
     @Override
@@ -24,9 +28,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Question create(Question questionToBeCreated) {
-        Long id = questionToBeCreated.getId();
-        if (id == null || questionToBeCreated.getContext().isEmpty() || questionRepository.existsById(id)) {
-            throw new IllegalArgumentException("Cannot create a new question cause this id is invalid");
+        String context = questionToBeCreated.getContext();
+        if (context.isEmpty() || questionRepository.existsByContext(context)) {
+            throw new IllegalArgumentException("Cannot create this question cause it context already exists");
         }
         return questionRepository.save(questionToBeCreated);
     }
@@ -34,6 +38,18 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public boolean attemptToAnswer(Guess guess) {
         Question attemptedQuestion = findById(guess.getQuestionId());
-        return attemptedQuestion.getAnswerLabel().equalsIgnoreCase(guess.getStatementLabel());
+        boolean isCorrect = attemptedQuestion.getAnswerLabel().equalsIgnoreCase(guess.getStatementLabel());
+
+        Player player = playerRepository.findById(guess.getPlayerId()).orElseThrow(NoSuchElementException::new);
+
+        if (isCorrect) {
+            player.incrementStreak();
+        } else {
+            player.setStreak(0);
+        }
+
+        playerRepository.save(player);
+
+        return isCorrect;
     }
 }
