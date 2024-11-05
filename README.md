@@ -27,6 +27,7 @@ classDiagram
     class Question {
         -String category
         -String difficult
+        -String context
         -String answerLabel
         -Statement[] possibleAnswers
     }
@@ -36,10 +37,10 @@ classDiagram
         -String content
     }
 
-    Player "1" *-- "1" Guess : faz
-    Guess "1" --* "1" Question : para
-    Guess "1" o-- "1" Statement : tem
-    Question "1" *-- "0..*" Statement : contém
+    Player "1" *-- "1" Guess : do
+    Guess "1" --* "1" Question : at
+    Guess "1" o-- "1" Statement : has
+    Question "1" *-- "0..*" Statement : contains
 ```
 
 ## Tecnologias usadas
