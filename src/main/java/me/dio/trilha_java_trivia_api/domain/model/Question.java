@@ -17,6 +17,17 @@ public class Question {
     @Column(length = 12)
     private String difficult;
 
+    @Column(length = 150)
+    private String context;
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
     @Column(length = 20, nullable = false)
     private String answerLabel;
 

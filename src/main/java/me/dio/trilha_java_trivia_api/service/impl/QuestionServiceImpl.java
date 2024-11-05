@@ -25,8 +25,8 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Question create(Question questionToBeCreated) {
         Long id = questionToBeCreated.getId();
-        if (id == null || questionRepository.existsById(id)) {
-            throw new IllegalArgumentException("Cannot create a new player cause this id is invalid");
+        if (id == null || questionToBeCreated.getContext().isEmpty() || questionRepository.existsById(id)) {
+            throw new IllegalArgumentException("Cannot create a new question cause this id is invalid");
         }
         return questionRepository.save(questionToBeCreated);
     }
