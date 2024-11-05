@@ -18,13 +18,17 @@ classDiagram
     }
 
     class Guess {
-        -int questionId
+        -long questionId
+        -long playerId
+        -String statementLabel
+        -boolean correct
     }
 
     class Question {
         -String category
         -String difficult
-        -String answer
+        -String answerLabel
+        -Statement[] possibleAnswers
     }
 
     class Statement {
