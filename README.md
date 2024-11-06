@@ -48,5 +48,6 @@ classDiagram
 - Java 21
 - Framework Spring para criação do projeto
 - OpenAPI/Swagger para documentação e teste dos *endpoints*
-- Railway para CI/CD e deploy da aplicação
+
+
 
