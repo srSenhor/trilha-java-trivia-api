@@ -30,6 +30,12 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+tasks.jar {
+	manifest {
+		attributes['Main-Class'] = "me.dio.trilha_java_trivia_api.Application"
+	}
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
